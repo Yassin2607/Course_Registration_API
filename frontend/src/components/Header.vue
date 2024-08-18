@@ -5,14 +5,12 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-center bg-red-600 text-white h-1/5">
-    <div class="flex flex-col items-center m-4">
+  <div class="flex justify-center bg-red-600 text-white">
+    <div class="flex flex-col items-center m-4 space-y-5">
       <div>
-        <h1 class="font-bold text-nowrap sm:text-4xl text-2xl drop-shadow-2xl">Course Registration System</h1>
+        <h1 class="drop-shadow-[5px_5px_0_rgba(0,0,0,0.25)] font-bold text-nowrap sm:text-4xl text-2xl">Course Registration System</h1>
       </div>
-      <div>
-        <p class="text-center mt-2 mb-0.5">I am a</p>
-      </div>
+
       <div class="flex justify-center">
         <router-link to="/" class="bg-red-800 w-24 rounded-xl p-2 mr-2 text-center hover:bg-red-900 border-2 border-red-800 menuItem-active-link">
           Parent
