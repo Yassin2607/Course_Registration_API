@@ -5,11 +5,14 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h1>Course Detail</h1>
-    <p>Welcome to the course detail page</p>
-  </div>
+  <div class="border-2 border-gray-200">
+    <div>
 
+    </div>
+    <div>
+
+    </div>
+  </div>
 </template>
 
 <style scoped>

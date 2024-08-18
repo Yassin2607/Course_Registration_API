@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col h-screen overflow-hidden">
     <header-component></header-component>
     <router-view class="grow bg-gray-100"></router-view>
   </div>
@@ -16,7 +16,5 @@ export default {
 </script>
 
 <style>
-  #app{
-    height: 100vh;
-  }
+
 </style>
