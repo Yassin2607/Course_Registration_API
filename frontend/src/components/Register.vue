@@ -1,7 +1,32 @@
 <script>
 export default {
-  name: "RegisterComponent"
-}
+  name: "RegisterComponent",
+  data() {
+    return {
+      name: "",
+      age: "",
+      course: "",
+      email: "",
+      tel: ""
+    };
+  },
+  methods: {
+    validateInput() {
+      if (
+          this.name === "" ||
+          this.age === "" ||
+          this.course === "" ||
+          this.email === "" ||
+          this.tel === ""
+      ) {
+        alert("Please fill in all fields");
+        console.log(this.name, this.age, this.course, this.email, this.tel);
+      } else {
+        alert("Registration successful");
+      }
+    }
+  }
+};
 </script>
 
 <template>
@@ -9,45 +34,47 @@ export default {
     <div class="flex flex-col space-y-8 bg-red-600 p-7 text-white font-semibold rounded-xl shadow-2xl">
       <div>
         <label for="name">Child's name</label>
-        <input type="text" id="name" class="block" autocomplete="off">
+        <input v-model="name" type="text" id="name" class="block" autocomplete="off">
       </div>
       <div>
         <label for="age">Age</label>
-        <input type="number" id="age" name="age" class="block decoration-0">
+        <input v-model.number="age" type="number" id="age" name="age" class="block decoration-0">
       </div>
       <div>
         <label for="course">Course</label>
         <div class="text-black">
-          <select id="course" name="course">
-            <option>United States</option>
-            <option>Canada</option>
-            <option>Mexico</option>
+          <select v-model="course" id="course" name="course">
+            <option value="">Please select a course</option>
+            <option value="Maths">Maths</option>
+            <option value="History">History</option>
+            <option value="Physics">Physics</option>
+            <option value="English">English</option>
+            <option value="Biology">Biology</option>
           </select>
         </div>
       </div>
       <div>
         <label for="email">Parent's email</label>
-        <input type="email" id="email" name="email" class="block">
+        <input v-model="email" type="email" id="email" name="email" class="block">
       </div>
       <div>
         <label for="tel">Contact number</label>
-        <input type="tel" id="tel" name="tel" class="block">
+        <input v-model="tel" type="tel" id="tel" name="tel" class="block">
       </div>
     </div>
     <div>
-      <button type="submit" class="bg-red-800 text-white px-6 py-2 text-xl rounded-xl hover:bg-red-900">Submit</button>
+      <button type="submit" @click="validateInput()" class="bg-red-800 text-white px-6 py-2 text-xl rounded-xl hover:bg-red-900">Submit</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-input, select{
+input, select {
   color: black;
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 0.25rem;
 }
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
