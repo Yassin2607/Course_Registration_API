@@ -15,7 +15,7 @@ export default {
   methods: {
     selectRegistration(registration){
       this.selectedRegistration = registration;
-      this.$router.push({name: 'CourseDetail', params: {id: registration.id}});
+      this.$router.push('/courses/' + registration.id);
     },
     handleDelete(registration){
       if (registration) {
@@ -53,7 +53,16 @@ export default {
           <h1>Students</h1>
         </div>
         <ul>
-          <li v-for="student in registrations" :key="student.id" @click="selectRegistration(student)" class="text-center p-3 border-b-2 border-b-gray-200 hover:bg-gray-300 hover:cursor-pointer font-semibold">
+          <li
+              v-for="student in registrations"
+              :key="student.id"
+              @click="selectRegistration(student)"
+              :class="{
+      'bg-black text-white hover:bg-black': selectedRegistration && student.id === selectedRegistration.id,
+      'hover:bg-gray-300 hover:cursor-pointer': true
+    }"
+              class="text-center p-3 border-b-2 border-b-gray-200 font-semibold"
+          >
             {{ student.childName }}
           </li>
         </ul>
