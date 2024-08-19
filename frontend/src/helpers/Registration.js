@@ -25,7 +25,7 @@ export class Registration {
                 i + 1,
                 "Child " + i,
                 10 + i,
-                "Course " + i,
+                "Maths",
                 "child" + i + "@example.com",
                 "1234567" + i
             );
@@ -33,6 +33,21 @@ export class Registration {
         }
 
         return registrations;
+    }
+
+    static copyConstructor(registration) {
+        return new Registration(
+            registration.id,
+            registration.childName,
+            registration.age,
+            registration.course,
+            registration.email,
+            registration.tel
+        );
+    }
+
+    static createEmptyRegistration() {
+        return new Registration(null, null, null, null, null, null);
     }
 
 
