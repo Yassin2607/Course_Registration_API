@@ -7,7 +7,7 @@ export default {
   props: {
     selectedRegistration: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data(){
