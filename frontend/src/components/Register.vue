@@ -45,9 +45,11 @@ export default {
         <div class="text-black">
           <select v-model="course" id="course" name="course">
             <option value="">Please select a course</option>
-            <option value="United States">United States</option>
-            <option value="Canada">Canada</option>
-            <option value="Mexico">Mexico</option>
+            <option value="Maths">Maths</option>
+            <option value="History">History</option>
+            <option value="Physics">Physics</option>
+            <option value="English">English</option>
+            <option value="Biology">Biology</option>
           </select>
         </div>
       </div>
