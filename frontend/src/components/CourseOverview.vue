@@ -6,18 +6,28 @@ export default {
   components: {CourseDetail},
   data(){
     return {
-      students: [
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Gekke Brahim", age: 11, id: 2},
-        {name: "Stille Badr", age: 12, id: 3},
-        {name: "Sluwe Mo", age: 13, id: 4},
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Gekke Brahim", age: 11, id: 2},
-        {name: "Stille Badr", age: 12, id: 3},
-        {name: "Sluwe Mo", age: 13, id: 4},
-        {name: "Jannetje", age: 10, id: 1},
-      ]
+      registrations: [],
+      selectedRegistration: null,
+    }
+  },
+  created() {
+    this.registrations = Registration.createSampleRegistrations();
+  },
+  methods: {
+    selectRegistration(registration){
+      this.selectedRegistration = registration;
+      this.$router.push({name: 'CourseDetail', params: {id: registration.id}});
+    },
+    handleDelete(registration){
+      if (registration) {
+        this.registrations = this.registrations.filter(reg => reg.id !== registration.id);
+        this.selectedRegistration = null;
+      }
+    },
+    handleUpdate(registration){
+      if (registration) {
+        Object.assign(this.selectedRegistration, registration);
+      }
     }
   }
 }
@@ -46,7 +56,10 @@ export default {
           </li>
         </ul>
       </div>
-      <course-detail class="flex-1 max-h-[80%]"></course-detail>
+      <router-view :selectedRegistration="selectedRegistration"
+                   @delete-registration="handleDelete"
+                   @update-registration="handleUpdate"
+                   class="flex-1 max-h-[80%]"></router-view>
     </div>
   </div>
 
