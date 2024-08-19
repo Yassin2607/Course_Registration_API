@@ -16,12 +16,15 @@ export default {
     }
   },
   created() {
-    this.editedRegistration = Registration.copyConstructor(this.selectedRegistration);
+    if (this.selectedRegistration){
+      this.editedRegistration = Registration.copyConstructor(this.selectedRegistration);
+    }
   },
   watch: {
     selectedRegistration(){
-      this.editedRegistration = Registration.copyConstructor(this.selectedRegistration);
-      console.log(this.editedRegistration);
+      if (this.selectedRegistration){
+        this.editedRegistration = Registration.copyConstructor(this.selectedRegistration);
+      }
     }
   },
   methods:{
@@ -33,10 +36,7 @@ export default {
     },
     onSave() {
       if (this.selectedRegistration) {
-        // eslint-disable-next-line
-        this.selectedRegistration = Registration.copyConstructor(this.editedRegistration)
-        // Emit an event to pass the changes to the parent component
-        this.$emit('update-registration', this.selectedRegistration);
+        this.$emit('update-registration', this.editedRegistration);
         console.log("Saved")
       }
     },

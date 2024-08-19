@@ -16,6 +16,17 @@ export default {
     selectRegistration(registration){
       this.selectedRegistration = registration;
       this.$router.push({name: 'CourseDetail', params: {id: registration.id}});
+    },
+    handleDelete(registration){
+      if (registration) {
+        this.registrations = this.registrations.filter(reg => reg.id !== registration.id);
+        this.selectedRegistration = null;
+      }
+    },
+    handleUpdate(registration){
+      if (registration) {
+        Object.assign(this.selectedRegistration, registration);
+      }
     }
   }
 }
@@ -47,7 +58,10 @@ export default {
           </li>
         </ul>
       </div>
-      <router-view :selectedRegistration="selectedRegistration"  class="flex-1 max-h-[80%]"></router-view>
+      <router-view :selectedRegistration="selectedRegistration"
+                   @delete-registration="handleDelete"
+                   @update-registration="handleUpdate"
+                   class="flex-1 max-h-[80%]"></router-view>
     </div>
   </div>
 
