@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Register from "@/components/Register.vue";
 import CourseOverview from "@/components/CourseOverview.vue";
+import CourseDetail from "@/components/CourseDetail.vue";
 
 const routes = [
     {
@@ -9,7 +10,16 @@ const routes = [
     },
     {
         path: '/courses',
-        component: CourseOverview
+        component: CourseOverview,
+        name: 'CourseOverview',
+        props: true,
+        children: [
+            {
+                path: ':id',
+                component: CourseDetail,
+                name: 'CourseDetail'
+            }
+        ]
     }
 ]
 

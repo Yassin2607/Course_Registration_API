@@ -1,23 +1,21 @@
 <script>
-import CourseDetail from "@/components/CourseDetail.vue";
+import {Registration} from "@/helpers/Registration";
 
 export default {
   name: "CourseOverview",
-  components: {CourseDetail},
   data(){
     return {
-      students: [
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Gekke Brahim", age: 11, id: 2},
-        {name: "Stille Badr", age: 12, id: 3},
-        {name: "Sluwe Mo", age: 13, id: 4},
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Jannetje", age: 10, id: 1},
-        {name: "Gekke Brahim", age: 11, id: 2},
-        {name: "Stille Badr", age: 12, id: 3},
-        {name: "Sluwe Mo", age: 13, id: 4},
-        {name: "Jannetje", age: 10, id: 1},
-      ]
+      registrations: [],
+      selectedRegistration: null,
+    }
+  },
+  created() {
+    this.registrations = Registration.createSampleRegistrations();
+  },
+  methods: {
+    selectRegistration(registration){
+      this.selectedRegistration = registration;
+      this.$router.push({name: 'CourseDetail', params: {id: registration.id}});
     }
   }
 }
@@ -29,9 +27,12 @@ export default {
       <label for="course" class="font-semibold">Selected Course</label>
       <div class="text-black">
         <select id="course" name="course">
-          <option>United States</option>
-          <option>Canada</option>
-          <option>Mexico</option>
+          <option value="">Please select a course</option>
+          <option value="Maths">Maths</option>
+          <option value="History">History</option>
+          <option value="Physics">Physics</option>
+          <option value="English">English</option>
+          <option value="Biology">Biology</option>
         </select>
       </div>
     </div>
@@ -41,12 +42,12 @@ export default {
           <h1>Students</h1>
         </div>
         <ul>
-          <li v-for="student in students" :key="student.id" class="text-center p-3 border-b-2 border-b-gray-200 hover:bg-gray-300 hover:cursor-pointer font-semibold">
-            {{ student.name }}
+          <li v-for="student in registrations" :key="student.id" @click="selectRegistration(student)" class="text-center p-3 border-b-2 border-b-gray-200 hover:bg-gray-300 hover:cursor-pointer font-semibold">
+            {{ student.childName }}
           </li>
         </ul>
       </div>
-      <course-detail class="flex-1 max-h-[80%]"></course-detail>
+      <router-view :selectedRegistration="selectedRegistration"  class="flex-1 max-h-[80%]"></router-view>
     </div>
   </div>
 
