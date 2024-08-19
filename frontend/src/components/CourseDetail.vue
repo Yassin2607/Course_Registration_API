@@ -1,6 +1,24 @@
 <script>
+import {Registration} from "@/helpers/Registration";
+
 export default {
-  name: "CourseDetail"
+  name: "CourseDetail",
+  props: {
+    selectedRegistration: {
+      Registration,
+    }
+  },
+  data(){
+    return {
+      registration: this.selectedRegistration
+    }
+  },
+  watch: {
+    selectedRegistration(){
+      this.registration = this.selectedRegistration;
+      console.log(this.registration);
+    }
+  }
 }
 </script>
 
@@ -27,15 +45,18 @@ export default {
       <label for="course">Course</label>
       <div class="text-black">
         <select id="course" name="course">
-          <option>United States</option>
-          <option>Canada</option>
-          <option>Mexico</option>
+          <option value="">Please select a course</option>
+          <option value="Maths">Maths</option>
+          <option value="History">History</option>
+          <option value="Physics">Physics</option>
+          <option value="English">English</option>
+          <option value="Biology">Biology</option>
         </select>
       </div>
     </div>
     <div>
       <label for="email">Parent's email</label>
-      <input type="email" id="email" name="email" class="block">
+      <input type="email" id="email" name="email" class="block" :value="registration.email">
     </div>
     <div>
       <label for="tel">Contact number</label>
