@@ -3,12 +3,13 @@ import mysql from 'mysql';
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "mama123"
+    password: "mama123",
+    database: "course_registration"
 });
 
-con.connect(function(err: Error) {
+con.connect((err) => {
     if (err) throw err;
     console.log("Connected!");
 });
 
-module.exports = con;
+export default con;
