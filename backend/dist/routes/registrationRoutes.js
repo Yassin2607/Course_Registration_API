@@ -7,7 +7,7 @@ const express_1 = require("express");
 const connection_js_1 = __importDefault(require("../db/connection.js"));
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => {
-    connection_js_1.default.query('SELECT * FROM registrations', (err, results) => {
+    connection_js_1.default.query('SELECT * FROM registrations', (err, results, fields) => {
         if (err) {
             return res.status(500).send('Error retrieving registrations.');
         }
@@ -16,7 +16,10 @@ router.get('/', (req, res) => {
 });
 router.post('/', (req, res) => {
     const { childName, age, course, email, tel } = req.body;
-    const query = 'INSERT INTO registrations (childName, age, course, email, tel) VALUES (?, ?, ?, ?, ?)';
+    if (!childName || !age || !course || !email || !tel) {
+        return res.status(400).send('Bad request, missing fields');
+    }
+    const query = 'INSERT INTO registrations (name, age, course, email, tel) VALUES (?, ?, ?, ?, ?)';
     connection_js_1.default.query(query, [childName, age, course, email, tel], (err, results) => {
         if (err) {
             return res.status(500).send('Error creating registration.');
@@ -27,7 +30,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { childName, age, course, email, tel } = req.body;
-    const query = 'UPDATE registrations SET childName = ?, age = ?, course = ?, email = ?, tel = ? WHERE id = ?';
+    const query = 'UPDATE registrations SET name = ?, age = ?, course = ?, email = ?, tel = ? WHERE id = ?';
     connection_js_1.default.query(query, [childName, age, course, email, tel, id], (err, results) => {
         if (err) {
             return res.status(500).send('Error updating registration.');
