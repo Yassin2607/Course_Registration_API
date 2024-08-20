@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "tsconfig-paths": "^4.2.0"
+  "devDependencies": {
+    "kill-port": "^2.0.1"
   }
 }

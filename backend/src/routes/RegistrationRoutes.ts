@@ -1,10 +1,11 @@
 import { Router, Request, Response } from 'express';
 import connection from '../db/connection.js';
+import { MysqlError, FieldInfo } from 'mysql';
 
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-  connection.query('SELECT * FROM registrations', (err, results) => {
+  connection.query('SELECT * FROM registrations', (err: MysqlError | null, results: any, fields: FieldInfo[] | undefined) => {
     if (err) {
       return res.status(500).send('Error retrieving registrations.');
     }
@@ -13,10 +14,15 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.post('/', (req: Request, res: Response) => {
-  const { childName, age, course, email, tel } = req.body;
-  const query = 'INSERT INTO registrations (childName, age, course, email, tel) VALUES (?, ?, ?, ?, ?)';
 
-  connection.query(query, [childName, age, course, email, tel], (err, results) => {
+  const { childName, age, course, email, tel } = req.body;
+  if (!childName || !age || !course || !email || !tel) {
+    return res.status(400).send('Bad request, missing fields');
+  }
+
+  const query = 'INSERT INTO registrations (name, age, course, email, tel) VALUES (?, ?, ?, ?, ?)';
+
+  connection.query(query, [childName, age, course, email, tel], (err: MysqlError | null, results: any) => {
     if (err) {
       return res.status(500).send('Error creating registration.');
     }
@@ -24,12 +30,13 @@ router.post('/', (req: Request, res: Response) => {
   });
 });
 
+
 router.put('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const { childName, age, course, email, tel } = req.body;
-  const query = 'UPDATE registrations SET childName = ?, age = ?, course = ?, email = ?, tel = ? WHERE id = ?';
+  const query = 'UPDATE registrations SET name = ?, age = ?, course = ?, email = ?, tel = ? WHERE id = ?';
 
-  connection.query(query, [childName, age, course, email, tel, id], (err, results) => {
+  connection.query(query, [childName, age, course, email, tel, id], (err: MysqlError | null, results: any) => {
     if (err) {
       return res.status(500).send('Error updating registration.');
     }
@@ -41,7 +48,7 @@ router.delete('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const query = 'DELETE FROM registrations WHERE id = ?';
 
-  connection.query(query, [id], (err, results) => {
+  connection.query(query, [id], (err: MysqlError | null, results: any) => {
     if (err) {
       return res.status(500).send('Error deleting registration.');
     }
