@@ -1,4 +1,6 @@
 <script>
+import axios from "axios";
+
 export default {
   name: "RegisterComponent",
   data() {
@@ -20,11 +22,41 @@ export default {
           this.tel === ""
       ) {
         alert("Please fill in all fields");
-        console.log(this.name, this.age, this.course, this.email, this.tel);
       } else {
-        alert("Registration successful");
+        this.submitForm();
       }
+    },
+    async submitForm() {
+      try {
+        const payload = {
+          childName: this.name,
+          age: this.age,
+          course: this.course,
+          email: this.email,
+          tel: this.tel
+        };
+
+        const response = await axios.post('http://localhost:3000/api/registrations/', payload);
+
+        if (response.status === 201) {
+          alert("Registration successful");
+          // Optionally clear the form
+          this.resetForm();
+        }
+      } catch (error) {
+        console.error("There was an error creating the registration:", error);
+        alert("There was an error creating the registration");
+      }
+
+    },
+    resetForm() {
+      this.name = "";
+      this.age = "";
+      this.course = "";
+      this.email = "";
+      this.tel = "";
     }
+
   }
 };
 </script>
