@@ -1,5 +1,5 @@
 <script>
-import {Registration} from "@/helpers/Registration";
+import axios from "axios";
 
 export default {
   name: "CourseOverview",
@@ -9,23 +9,67 @@ export default {
       selectedRegistration: null,
     }
   },
-  created() {
-    this.registrations = Registration.createSampleRegistrations();
+  async created() {
+    await this.fetchRegistrations();
+
+    this.selectedRegistration = this.findSelectedFromRouteParam(this.$route);
   },
+
   methods: {
-    selectRegistration(registration){
-      this.selectedRegistration = registration;
-      this.$router.push('/courses/' + registration.id);
+    findSelectedFromRouteParam(route) {
+      return this.registrations.find((registration) => registration.id === parseInt(route.params['id']));
     },
-    handleDelete(registration){
-      if (registration) {
-        this.registrations = this.registrations.filter(reg => reg.id !== registration.id);
-        this.selectedRegistration = null;
+    async fetchRegistrations() {
+      try {
+        //Clear the registrations array
+        this.registrations = [];
+
+        // Simulate API call to fetch registrations
+        const response = await axios.get('http://localhost:3000/api/registrations/');
+        response.data.map(reg => {
+          this.registrations.push(reg);
+        });
+      } catch (error) {
+        console.error('Error fetching registrations:', error);
       }
     },
-    handleUpdate(registration){
+    selectRegistration(registration){
+      if (registration === this.selectedRegistration){
+        this.selectedRegistration = null;
+        this.$router.push('/courses');
+      } else {
+        this.selectedRegistration = registration;
+        this.$router.push('/courses/' + registration.id);
+      }
+    },
+    async handleDelete(registration) {
       if (registration) {
-        Object.assign(this.selectedRegistration, registration);
+        try {
+          // Verwijder registratie via de API
+          await axios.delete(`http://localhost:3000/api/registrations/${registration.id}`);
+
+          await this.fetchRegistrations();
+
+          this.$router.push('/courses');
+        } catch (error) {
+          console.error('Error deleting registration:', error);
+        }
+      }
+    },
+    async handleUpdate(updatedRegistration) {
+      if (updatedRegistration) {
+        try {
+          console.log(updatedRegistration)
+          // Update registratie via de API
+          const response = await axios.put(`http://localhost:3000/api/registrations/${updatedRegistration.id}`, updatedRegistration);
+
+          if (response.status === 200) {
+            await this.fetchRegistrations();
+            this.$router.push('/courses');
+          }
+        } catch (error) {
+          console.error('Error updating registration:', error);
+        }
       }
     }
   }
@@ -34,21 +78,9 @@ export default {
 
 <template>
   <div class="flex flex-col p-4 space-y-4">
-    <div>
-      <label for="course" class="font-semibold">Selected Course</label>
-      <div class="text-black">
-        <select id="course" name="course">
-          <option value="">Please select a course</option>
-          <option value="Maths">Maths</option>
-          <option value="History">History</option>
-          <option value="Physics">Physics</option>
-          <option value="English">English</option>
-          <option value="Biology">Biology</option>
-        </select>
-      </div>
-    </div>
+
     <div class="flex flex-1 flex-row space-x-4">
-      <div class="max-h-[80%] border-2 border-gray-200 sm:w-1/4 w-1/3 overflow-y-scroll">
+      <div class="max-h-[100%] border-2 border-gray-200 sm:w-1/4 w-1/3 overflow-y-scroll">
         <div class="flex justify-center items-center p-3 font-bold border-b-2 border-b-gray-200">
           <h1>Students</h1>
         </div>
@@ -63,14 +95,14 @@ export default {
     }"
               class="text-center p-3 border-b-2 border-b-gray-200 font-semibold"
           >
-            {{ student.childName }}
+            {{ student.name }}
           </li>
         </ul>
       </div>
       <router-view :selectedRegistration="selectedRegistration"
                    @delete-registration="handleDelete"
                    @update-registration="handleUpdate"
-                   class="flex-1 max-h-[80%]"></router-view>
+                   class="flex-1 max-h-[100%]"></router-view>
     </div>
   </div>
 

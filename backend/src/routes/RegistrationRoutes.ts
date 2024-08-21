@@ -15,14 +15,14 @@ router.get('/', (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
 
-  const { childName, age, course, email, tel } = req.body;
-  if (!childName || !age || !course || !email || !tel) {
+  const { name, age, course, email, tel } = req.body;
+  if (!name || !age || !course || !email || !tel) {
     return res.status(400).send('Bad request, missing fields');
   }
 
   const query = 'INSERT INTO registrations (name, age, course, email, tel) VALUES (?, ?, ?, ?, ?)';
 
-  connection.query(query, [childName, age, course, email, tel], (err: MysqlError | null, results: any) => {
+  connection.query(query, [name, age, course, email, tel], (err: MysqlError | null, results: any) => {
     if (err) {
       return res.status(500).send('Error creating registration.');
     }
@@ -33,10 +33,10 @@ router.post('/', (req: Request, res: Response) => {
 
 router.put('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const { childName, age, course, email, tel } = req.body;
+  const { name, age, course, email, tel } = req.body;
   const query = 'UPDATE registrations SET name = ?, age = ?, course = ?, email = ?, tel = ? WHERE id = ?';
 
-  connection.query(query, [childName, age, course, email, tel, id], (err: MysqlError | null, results: any) => {
+  connection.query(query, [name, age, course, email, tel, id], (err: MysqlError | null, results: any) => {
     if (err) {
       return res.status(500).send('Error updating registration.');
     }

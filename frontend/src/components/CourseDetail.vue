@@ -46,9 +46,6 @@ export default {
         console.log("Reset")
       }
     },
-    onCancelScooter() {
-      this.$router.push((this.$route.matched[0]).path);
-    },
   }
 }
 </script>
@@ -67,7 +64,7 @@ export default {
     </div>
     <div>
       <label for="name">Child's name</label>
-      <input type="text" id="name" class="block" autocomplete="off" v-model="editedRegistration.childName">
+      <input type="text" id="name" class="block" autocomplete="off" v-model="editedRegistration.name">
     </div>
     <div>
       <label for="age">Age</label>

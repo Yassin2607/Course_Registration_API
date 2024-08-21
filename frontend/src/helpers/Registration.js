@@ -1,15 +1,15 @@
 export class Registration {
 
     id;
-    childName;
+    name;
     age;
     course;
     email;
     tel;
 
-    constructor(id, childName, age, course, email, tel) {
+    constructor(id, name, age, course, email, tel) {
         this.id = id;
-        this.childName = childName;
+        this.name = name;
         this.age = age;
         this.course = course;
         this.email = email;
@@ -38,7 +38,7 @@ export class Registration {
     static copyConstructor(registration) {
         return new Registration(
             registration.id,
-            registration.childName,
+            registration.name,
             registration.age,
             registration.course,
             registration.email,
