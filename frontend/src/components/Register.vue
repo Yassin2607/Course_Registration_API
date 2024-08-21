@@ -29,7 +29,7 @@ export default {
     async submitForm() {
       try {
         const payload = {
-          childName: this.name,
+          name: this.name,
           age: this.age,
           course: this.course,
           email: this.email,
@@ -70,7 +70,7 @@ export default {
       </div>
       <div>
         <label for="age">Age</label>
-        <input v-model.number="age" type="number" id="age" name="age" class="block decoration-0">
+        <input v-model.number="age" type="number" id="age" name="age" class="block decoration-0" autocomplete="off">
       </div>
       <div>
         <label for="course">Course</label>
@@ -87,11 +87,11 @@ export default {
       </div>
       <div>
         <label for="email">Parent's email</label>
-        <input v-model="email" type="email" id="email" name="email" class="block">
+        <input v-model="email" type="email" id="email" name="email" class="block" autocomplete="off">
       </div>
       <div>
         <label for="tel">Contact number</label>
-        <input v-model="tel" type="tel" id="tel" name="tel" class="block">
+        <input v-model="tel" type="tel" id="tel" name="tel" class="block" autocomplete="off">
       </div>
     </div>
     <div>

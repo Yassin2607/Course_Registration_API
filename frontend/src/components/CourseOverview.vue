@@ -45,7 +45,7 @@ export default {
     async handleDelete(registration) {
       if (registration) {
         try {
-          // Verwijder registratie via de API
+          // Delete registration
           await axios.delete(`http://localhost:3000/api/registrations/${registration.id}`);
 
           await this.fetchRegistrations();
@@ -60,7 +60,7 @@ export default {
       if (updatedRegistration) {
         try {
           console.log(updatedRegistration)
-          // Update registratie via de API
+          // Update registration
           const response = await axios.put(`http://localhost:3000/api/registrations/${updatedRegistration.id}`, updatedRegistration);
 
           if (response.status === 200) {
